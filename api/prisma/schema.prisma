@@ -28,7 +28,7 @@ model Post {
   content String
   create_date DateTime
   published Boolean
-  author User @relation(fields: [authorid], references: [id], onDelete: Cascade)
+  author User? @relation(fields: [authorid], references: [id], onDelete: Cascade)
   authorid Int
   comments Comment[]
 }
@@ -39,6 +39,6 @@ model Comment {
   create_date DateTime
   post Post @relation(fields: [postid], references: [id], onDelete: Cascade)
   postid Int
-  author User @relation(fields: [authorid], references: [id], onDelete: Cascade)
+  author User? @relation(fields: [authorid], references: [id], onDelete: Cascade)
   authorid Int
 }
