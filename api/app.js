@@ -13,12 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 ///require('./config/passportLocal');
 
 app.use(passport.initialize());
-/*
+
 app.use("/posts", postsRouter);
 app.use("/posts/:postid/comments", commentsRouter);
 app.use("/users", usersRouter);
 app.use("/login", acessRouter);
-*/
+
 
 app.use((err, req, res, next) => {
     console.error(err);
@@ -26,16 +26,4 @@ app.use((err, req, res, next) => {
     res.sendStatus(err.statusCode) || res.sendStatus(500);
   });
 
-async function hello() {
-    await prisma.post.create({
-        data: {
-            title: "BYEBE",
-            content: "HELLOEWOLRD",
-            published: false,
-            create_date: new Date()
-        }
-    })
-};
-
-hello();
 app.listen(8080);
