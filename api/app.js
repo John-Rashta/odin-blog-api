@@ -11,8 +11,9 @@ const cors = require("cors");
 require("dotenv").config();
 const {prisma} = require("./config/client");
 
-
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 ///require('./config/passportLocal');
 
@@ -26,8 +27,7 @@ app.use("/login", accessRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);
-    
-    res.sendStatus(err.statusCode) || res.sendStatus(500);
+    return res.status(500).json({message: "internal error"});
   });
 
 app.listen(8080);

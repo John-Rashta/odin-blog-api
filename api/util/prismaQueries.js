@@ -1,7 +1,9 @@
 const {prisma} = require("../config/client");
 
-exports.getPosts = async () => {
-    const allPosts = await prisma.post.findMany();
+exports.getPosts = async (options={}) => {
+    const allPosts = await prisma.post.findMany({
+        ...options
+    });
     return allPosts;
 };
 
@@ -76,6 +78,20 @@ exports.createUser = async (data, options={}) => {
 };
 
 exports.getComments = async (where, options={}) => {
+    const postComments = await prisma.post.findFirst({
+        where: {
+            ...where
+        },
+        include: {
+            comments: true
+        },
+        ...options
+    });
+
+    return postComments;
+};
+
+exports.getOnlyComments = async (where, options={}) => {
     const postComments = await prisma.comment.findMany({
         where: {
             ...where

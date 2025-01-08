@@ -27,7 +27,7 @@ model Post {
   title String
   content String
   create_date DateTime
-  published Boolean
+  published Boolean @default(false)
   author User? @relation(fields: [authorid], references: [id], onDelete: Cascade)
   authorid Int?
   comments Comment[]
