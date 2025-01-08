@@ -2,53 +2,11 @@ const asyncHandler = require('express-async-handler');
 const { body, validationResult, param, matchedData, query } = require("express-validator");
 const prismaQuery = require("../util/prismaQueries");
 const optionsHelper = require("../util/optionsHelper");
-const { post } = require('../routes/accessRouter');
-
-const postIdValidation = [
-    param("postid")
-        .toInt().isInt().withMessage("Must be an integer.")
-];
-
-const createPostValidation = [
-    body("title")
-        .isAscii().withMessage("Must only contain ascii characters."),
-    body("content")
-        .isAscii().withMessage("Must only contain ascii characters."),
-    body("published")
-        .optional({ values: "falsy" })
-        .isBoolean().withMessage("Must be a boolean."),
-    body("user")
-        .optional({ values: "falsy" })
-        .toInt().isInt().withMessage("Must be an integer."),
-];
-
-const searchPostValidation = [
-    query("ORDERBY")
-        .optional({ values: "falsy" })
-        .isAlpha().withMessage("Must only be characters."),
-    query("START")
-        .optional({ values: "falsy" })
-        .toInt().isInt().withMessage("Must be an integer."),
-    query("AMOUNT")
-        .optional({ values: "falsy" })
-        .toInt().isInt().withMessage("Must be an integer."),
-];
-
-const updatePostValidation = [
-    body("title")
-        .optional({ values: "falsy" })
-        .isAscii().withMessage("Must only contain ascii characters."),
-    body("content")
-        .optional({ values: "falsy" })
-        .isAscii().withMessage("Must only contain ascii characters."),
-    body("published")
-        .optional({ values: "falsy" })
-        .isBoolean().withMessage("Must be a boolean."),
-
-]
+const validators = require("../util/validators");
+const basicOptions = require("../util/basicOptions");
 
 exports.showPosts = [
-    searchPostValidation,
+    validators.searchValidation,
     asyncHandler(async (req, res) => {
         const formOptions = optionsHelper(matchedData(req, {locations: ["query"]}));
         const allPosts = await prismaQuery.getPosts({
@@ -57,14 +15,18 @@ exports.showPosts = [
                 content: true,
                 create_date: true,
             },
+            where: {
+                published: true
+            },
             ...formOptions
+
         })
         return res.json(allPosts);
     })
 ];
 
 exports.createPost = [
-    createPostValidation,
+    validators.createPostValidation,
     asyncHandler(async (req, res) => {
         const result = validationResult(req);
         const rawFormData = matchedData(req);
@@ -75,7 +37,7 @@ exports.createPost = [
 ];
 
 exports.updatePost = [
-    postIdValidation.concat(updatePostValidation),
+    validators.postIdValidation.concat(validators.updatePostValidation),
     asyncHandler(async (req, res) => {
         const formData = matchedData(req, {locations: ["body"]});
         const {postid} = matchedData(req, {locations: ["params"]});
@@ -85,7 +47,7 @@ exports.updatePost = [
 ];
 
 exports.deletePost = [
-    postIdValidation,
+    validators.postIdValidation,
     asyncHandler(async (req, res) => {
         const {postid} = matchedData(req, {locations: ["params"]});
         const deletedPost = await prismaQuery.deletePost({id: postid});
@@ -94,10 +56,10 @@ exports.deletePost = [
 ];
 
 exports.getPost = [
-    postIdValidation,
+    validators.postIdValidation,
     asyncHandler(async (req, res) => {
         const {postid} = matchedData(req, {locations: ["params"]});
-        const foundPost = await prismaQuery.getPost({id: postid});
+        const foundPost = await prismaQuery.getPost({id: postid}, basicOptions.postBasicOptions);
         return res.json(foundPost);
     })
 ];

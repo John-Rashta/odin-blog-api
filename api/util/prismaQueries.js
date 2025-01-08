@@ -1,3 +1,4 @@
+const { dmmfToRuntimeDataModel } = require("@prisma/client/runtime/library");
 const {prisma} = require("../config/client");
 
 exports.getPosts = async (options={}) => {
@@ -77,15 +78,17 @@ exports.createUser = async (data, options={}) => {
     return createdUser;
 };
 
-exports.getComments = async (where, options={}) => {
+exports.getComments = async (where, postOptions={}, commentOptions={}) => {
     const postComments = await prisma.post.findFirst({
         where: {
             ...where
         },
-        include: {
-            comments: true
+        select: {
+            ...postOptions,
+            comments: {
+                ...commentOptions
+            }
         },
-        ...options
     });
 
     return postComments;
