@@ -18,8 +18,3 @@ exports.loginUser = asyncHandler(async (req, res) => {
     ///TODO
     return res.status(404).json();
 });
-
-exports.logoutUser = asyncHandler(async (req, res) => {
-    ///TODO
-    return res.status(404).json();
-});
