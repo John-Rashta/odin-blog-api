@@ -17,7 +17,7 @@ model User {
   id Int @id @default(autoincrement())
   username String
   password String
-  admin Boolean
+  admin Boolean @default(false)
   posts Post[]
   comments Comment[]
 }
@@ -36,6 +36,7 @@ model Post {
 model Comment {
   id Int @id @default(autoincrement())
   content String
+  email String
   create_date DateTime
   post Post @relation(fields: [postid], references: [id], onDelete: Cascade)
   postid Int
