@@ -193,3 +193,14 @@ exports.getUserComments = async(user, options={}) => {
 
     return userComments;
 };
+
+exports.getUserByUsername = async(user, options={}) => {
+    const foundUser = await prisma.user.findFirst({
+        where: {
+            username: user
+        },
+        ...options
+    });
+
+    return foundUser;
+};

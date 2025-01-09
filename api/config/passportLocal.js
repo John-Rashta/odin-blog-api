@@ -2,13 +2,11 @@ const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 require("dotenv").config();
-const {prisma} = require("./client");
-
-
+const prismaQuery = require("../util/prismaQueries");
 
 const verifyCallback = async (username, password, done) => {
     try {
-      const user = await prisma.user.findFirst({where : {username}});
+      const user = await prismaQuery.getUserByUsername(username);
 
       if (!user) {
         return done(null, false, { message: "Incorrect username" });

@@ -2,6 +2,8 @@ const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const path = require('path');
 require("dotenv").config();
+const prismaQuery = require("../util/prismaQueries");
+const passport = require("passport");
 
 // At a minimum, you must pass the `jwtFromRequest` and `secretOrKey` properties
 const options = {
@@ -11,12 +13,7 @@ const options = {
 
 const verifyCallback = async (jwt_payload, done) => {
     try {
-      const user = await prisma.user.findFirst({
-        where : {
-            id: jwt_payload.sub
-            }
-        });
-
+      const user = await prismaQuery.getUser({id: jwt_payload.sub});
       if (!user) {
         return done(null, false);
       }
@@ -26,6 +23,6 @@ const verifyCallback = async (jwt_payload, done) => {
     }
 };
 
-const strategy = new JwtStrategy(verifyCallback);
+const strategy = new JwtStrategy(options, verifyCallback);
 
 passport.use(strategy);

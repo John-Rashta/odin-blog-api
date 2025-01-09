@@ -14,8 +14,8 @@ const {prisma} = require("./config/client");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-///require('./config/passportLocal');
+require('./config/passportLocal');
+require('./config/passportJWT');
 
 app.use(passport.initialize());
 app.use(cors());

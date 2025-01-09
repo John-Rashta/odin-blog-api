@@ -1,5 +1,6 @@
 const commentBasicOptions = {
     select: {
+        id: true,
         content: true,
         email: true,
         create_date: true
@@ -8,6 +9,7 @@ const commentBasicOptions = {
 
 const postBasicOptions = {
     select: {
+        id: true,
         title: true,
         content: true,
         create_date: true

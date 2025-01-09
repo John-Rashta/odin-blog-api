@@ -4,9 +4,12 @@ const prismaQuery = require("../util/prismaQueries");
 const optionsHelper = require("../util/optionsHelper");
 const validators = require("../util/validators");
 const basicOptions = require("../util/basicOptions");
+const {basicErrorMiddleware} = require("../middleware/errorMiddleware");
+const passport = require("passport");
 
 exports.showComments = [
     validators.postIdValidation,
+    basicErrorMiddleware,
     asyncHandler(async (req, res) => {
         const {postid} = matchedData(req, {locations: ["params"]});
         const postComments = await prismaQuery.getComments({id: postid},basicOptions.postBasicOptions.select, basicOptions.commentBasicOptions);
@@ -16,6 +19,7 @@ exports.showComments = [
 
 exports.createComment =  [
     validators.postIdValidation.concat(validators.createCommentValidation),
+    basicErrorMiddleware,
     asyncHandler(async (req, res) => {
         const {postid} = matchedData(req, {locations: ["params"]});
         const formData = matchedData(req, {locations: ["body"]});
@@ -26,7 +30,9 @@ exports.createComment =  [
 ];
 
 exports.updateComment = [
-    validators.postIdValidation.concat(validators.commentIdValidation, validators.updateCommentValidation),
+    validators.postIdValidation.concat(validators.commentIdValidation, validators.updateCommentValidation, validators.headerValidation),
+    basicErrorMiddleware,
+    passport.authenticate('jwt', { session: false }),
     asyncHandler(async (req, res) => {
         const {postid, commentid} = matchedData(req, {locations: ["params"]});
         const formData = matchedData(req, {locations: ["body"]});
@@ -36,7 +42,9 @@ exports.updateComment = [
 ];
 
 exports.deleteComment = [
-    validators.postIdValidation.concat(validators.commentIdValidation),
+    validators.postIdValidation.concat(validators.commentIdValidation, validators.headerValidation),
+    basicErrorMiddleware,
+    passport.authenticate('jwt', { session: false }),
     asyncHandler(async (req, res) => {
         const {postid, commentid} = matchedData(req, {locations: ["params"]});
         const deletedComment = await prismaQuery.deleteComment({id: commentid, postid});
@@ -45,6 +53,7 @@ exports.deleteComment = [
 ];
 exports.getComment = [
     validators.postIdValidation.concat(validators.commentIdValidation),
+    basicErrorMiddleware,
     asyncHandler(async (req, res) => {
         const {postid, commentid} = matchedData(req, {locations: ["params"]});
         const foundComment = await prismaQuery.getComment({id: commentid, postid}, basicOptions.commentBasicOptions);

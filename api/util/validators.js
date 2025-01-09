@@ -1,4 +1,5 @@
 const { body, validationResult, param, matchedData, query, header } = require("express-validator");
+const validator = require('validator');
 
 const postIdValidation = [
     param("postid")
@@ -85,7 +86,11 @@ const updatePostValidation = [
 
 const headerValidation = [
     header("authorization")
-        .isJWT().withMessage("Needs to have a Json Web Token.")
+        .notEmpty()
+        .custom((value, {req}) => {
+            const bearer = value.split(" ");
+            return validator.isJWT(bearer[1]);
+        }).withMessage("Needs to have a Json Web Token.")
 ];
 
 const loginValidation = [
