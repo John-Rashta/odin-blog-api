@@ -20,6 +20,7 @@ exports.loginUser = [
             }
 
             res.json({
+                id: req.user.id,
                 token
             });
         });

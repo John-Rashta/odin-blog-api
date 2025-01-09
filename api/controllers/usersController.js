@@ -37,6 +37,7 @@ exports.createUser = [
 exports.getUserPosts = [
     validators.userIdValidation.concat(validators.searchValidation),
     basicErrorMiddleware,
+    passport.authenticate('jwt', { session: false }),
     asyncHandler(async (req, res) => {
         const {userid} = matchedData(req, {locations: ["params"]});
         const formOptions = optionsHelper(matchedData(req, {locations: ["query"]}));
@@ -48,6 +49,7 @@ exports.getUserPosts = [
 exports.getUserComments = [
     validators.userIdValidation.concat(validators.searchValidation),
     basicErrorMiddleware,
+    passport.authenticate('jwt', { session: false }),
     asyncHandler(async (req, res) => {
         const {userid} = matchedData(req, {locations: ["params"]});
         const formOptions = optionsHelper(matchedData(req, {locations: ["query"]}));

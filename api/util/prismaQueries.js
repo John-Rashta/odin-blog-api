@@ -173,9 +173,14 @@ exports.deleteUser = async(where, options={}) => {
 
 ///SPECIFIC QUERIES
 exports.getUserPosts = async(user, options={}) => {
-    const userPosts = await prisma.post.findMany({
+    const userPosts = await prisma.user.findFirst({
         where: {
-            authorid: user
+            id: user
+        },
+        select: {
+            id: true,
+            username: true,
+            posts: true
         },
         ...options
     });
@@ -184,9 +189,14 @@ exports.getUserPosts = async(user, options={}) => {
 };
 
 exports.getUserComments = async(user, options={}) => {
-    const userComments = await prisma.comment.findMany({
+    const userComments = await prisma.user.findFirst({
         where: {
-            authorid: user
+            id: user
+        },
+        select: {
+            id: true,
+            username: true,
+            comments: true
         },
         ...options
     });
