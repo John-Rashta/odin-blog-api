@@ -35,7 +35,7 @@ exports.createPost = [
     asyncHandler(async (req, res) => {
         const rawFormData = matchedData(req, {locations: ["body"]});
         const {user, ...queryData} = rawFormData;
-        const createdPost = await prismaQuery.createPost({...queryData, create_date: new Date()}, true && user);
+        const createdPost = await prismaQuery.createPost({...queryData, create_date: new Date()}, true && user, basicOptions.postBasicOptions);
         return res.json(createdPost);
     })
 ];
@@ -47,7 +47,7 @@ exports.updatePost = [
     asyncHandler(async (req, res) => {
         const formData = matchedData(req, {locations: ["body"]});
         const {postid} = matchedData(req, {locations: ["params"]});
-        const updatedPost = await prismaQuery.updatePost({id: postid}, {...formData});
+        const updatedPost = await prismaQuery.updatePost({id: postid}, {...formData}, basicOptions.postBasicOptions);
         return res.json(updatedPost);
     })
 ];

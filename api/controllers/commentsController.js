@@ -24,7 +24,7 @@ exports.createComment =  [
         const {postid} = matchedData(req, {locations: ["params"]});
         const formData = matchedData(req, {locations: ["body"]});
         const {user, ...queryData} = formData;
-        const createdComment = await prismaQuery.createComment({...queryData, create_date: new Date()}, postid, true && user);
+        const createdComment = await prismaQuery.createComment({...queryData, create_date: new Date()}, postid, true && user, basicOptions.commentBasicOptions);
         return res.json(createdComment);
     })
 ];
@@ -36,7 +36,7 @@ exports.updateComment = [
     asyncHandler(async (req, res) => {
         const {postid, commentid} = matchedData(req, {locations: ["params"]});
         const formData = matchedData(req, {locations: ["body"]});
-        const updatedComment = await prismaQuery.updateComment({id: commentid, postid }, {...formData})
+        const updatedComment = await prismaQuery.updateComment({id: commentid, postid }, {...formData}, basicOptions.commentBasicOptions)
         return res.json(updatedComment);
     })
 ];
