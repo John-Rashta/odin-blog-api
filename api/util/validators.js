@@ -13,8 +13,10 @@ const commentIdValidation = [
 
 const createCommentValidation = [
     body("email")
+        .trim()
         .isEmail().withMessage("Must be an email."),
     body("content")
+        .trim()
         .isAscii().withMessage("Must only contain ascii characters."),
     body("user")
         .optional({ values: "falsy" })

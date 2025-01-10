@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react";
+import { MiniPost } from "./MiniPost";
 
 function HomePage() {
     const [postsData, setPostsData] = useState([]);
@@ -16,15 +17,14 @@ function HomePage() {
         postsFetch();
     }, []);
 
-    console.log(postsData)
-
     return (
         <div>
             <main>
                 {
-                    loading ? <div>LOADING</div> : <div>LOADED</div>
+                    loading ? <div>LOADING</div> : <div> {postsData.length > 0 && postsData.map((post) => {
+                        return <MiniPost key={post.id} data={post} />
+                    })} </div>
                 }
-                
             </main>
         </div>
     )
