@@ -17,6 +17,7 @@ exports.showPosts = [
                 title: true,
                 content: true,
                 create_date: true,
+                id: true,
             },
             where: {
                 published: true
