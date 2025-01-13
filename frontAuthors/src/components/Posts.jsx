@@ -1,0 +1,6 @@
+
+function Posts(){
+
+};
+
+export {Posts};

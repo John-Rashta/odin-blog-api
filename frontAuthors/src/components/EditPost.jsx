@@ -1,0 +1,6 @@
+
+function EditPost(){
+
+};
+
+export {EditPost};

@@ -1,0 +1,6 @@
+
+function CreatePost(){
+
+};
+
+export {CreatePost};
