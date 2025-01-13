@@ -7,6 +7,7 @@ import { EditPost } from './components/EditPost.jsx';
 import { Index } from './components/Index.jsx';
 import { Login } from './components/Login.jsx';
 import { Posts } from './components/Posts.jsx';
+import {Post} from './components/Post.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/posts/:postid",
+    element: <Post />
+  },
+  {
+    path: "/posts/edit/:postid",
     element: <EditPost />
   },
   {

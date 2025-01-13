@@ -16,7 +16,6 @@ function CreateComment() {
                 return;
             }
             setCreating(true);
-            console.log(JSON.stringify({email: formData.email, content: formData.content}))
             const response = await fetch(`http://localhost:8080/posts/${params.postid}/comments`, {method: "POST",
                 body: JSON.stringify({email: formData.email, content: formData.content}),
                 headers: {

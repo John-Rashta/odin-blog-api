@@ -53,7 +53,7 @@ const createPostValidation = [
     body("content")
         .isAscii().withMessage("Must only contain ascii characters."),
     body("published")
-        .optional({ values: "falsy" })
+        .optional()
         .isBoolean().withMessage("Must be a boolean."),
     body("user")
         .optional({ values: "falsy" })
@@ -80,7 +80,7 @@ const updatePostValidation = [
         .optional({ values: "falsy" })
         .isAscii().withMessage("Must only contain ascii characters."),
     body("published")
-        .optional({ values: "falsy" })
+        .optional()
         .isBoolean().withMessage("Must be a boolean."),
 
 ];

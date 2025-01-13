@@ -1,0 +1,6 @@
+
+function Post(){
+
+};
+
+export {Post};

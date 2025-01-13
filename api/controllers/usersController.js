@@ -35,7 +35,7 @@ exports.createUser = [
 ] ;
 
 exports.getUserPosts = [
-    validators.userIdValidation.concat(validators.searchValidation),
+    validators.userIdValidation.concat(validators.searchValidation, validators.headerValidation),
     basicErrorMiddleware,
     passport.authenticate('jwt', { session: false }),
     asyncHandler(async (req, res) => {
@@ -47,7 +47,7 @@ exports.getUserPosts = [
 ];
 
 exports.getUserComments = [
-    validators.userIdValidation.concat(validators.searchValidation),
+    validators.userIdValidation.concat(validators.searchValidation, validators.headerValidation),
     basicErrorMiddleware,
     passport.authenticate('jwt', { session: false }),
     asyncHandler(async (req, res) => {
