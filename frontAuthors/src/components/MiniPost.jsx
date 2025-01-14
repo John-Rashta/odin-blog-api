@@ -50,8 +50,7 @@ function MiniPost({data, fetchAgain, token}) {
         }
         postsFetch();
     }, [deleted]);
-    ///TODO ADD BUTTON TO EDIT AND DELETE  POST
-    ///ADD BUTTON TO PUBLISH AND UNPUBLISH
+    
     return (
         <div>
             <div>{data.title} </div>

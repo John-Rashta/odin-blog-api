@@ -32,7 +32,7 @@ const router = createBrowserRouter([
     element: <EditPost />
   },
   {
-    path: "/comments/:commentid",
+    path: "/posts/:postid/:commentid/edit",
     element: <EditComment />
   },
   {

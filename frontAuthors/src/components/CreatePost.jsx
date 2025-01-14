@@ -35,7 +35,7 @@ function CreatePost(){
                     setCreating(false);
                 })
             } else {
-                navigate(`/`)
+                navigate(`/posts`)
 
             }
         }

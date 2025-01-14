@@ -71,7 +71,7 @@ function EditPost(){
     return (
         <div>
             <div>{error} </div>
-            {loading ? <div> Loading... </div> : !token ? <Link to="/login">Login here</Link> : editing ? <div> editing comment... </div> : 
+            {loading ? <div> Loading... </div> : !token ? <Link to="/login">Login here</Link> : editing ? <div> editing post... </div> : 
                 <form>
                 <input
                 onChange={(e) => {
